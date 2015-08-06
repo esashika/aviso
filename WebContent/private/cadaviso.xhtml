@@ -1,0 +1,41 @@
+<ui:composition template="/WEB-INF/templates/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o = "http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Dashboard</ui:define>
+
+	<ui:define name="corpo">
+	
+	
+
+
+
+		<p:growl/>
+		<h:form id="formAviso">
+			<h:panelGrid columns="2" cellpadding="10">
+				
+				
+
+				<p:outputLabel value="Tipo: " for="tipoParada" />
+				<p:selectOneMenu value="#{avisoMB.aviso.tipoParada}" id="tipoParada" converter="generic">   
+                        <f:selectItem itemLabel="Selecione" />  
+                        <f:selectItems value="#{avisoMB.listaTipoParada}" var="t"  
+                            itemValue="#{t}" itemLabel="#{t.descparada}"/>  
+                    </p:selectOneMenu>  
+
+				<p:outputLabel value="Texto Aviso:" for="textoAviso"/>
+				<p:inputTextarea value="#{avisoMB.aviso.avisoTexto}" id="textoAviso"/>
+
+			</h:panelGrid>
+				<p:commandButton value="Salvar" action="#{avisoMB.save()}"  rendered="#{avisoMB.aviso.idAviso==null}"/>
+				<p:commandButton value="Update" action="#{avisoMB.update()}" rendered="#{avisoMB.aviso.idAviso!=null}"/>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

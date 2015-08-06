@@ -1,0 +1,110 @@
+<ui:composition template="/WEB-INF/templates/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Dashboard</ui:define>
+
+	<ui:define name="corpo">
+
+<f:metadata>
+
+	<f:event listener="#{avisoMB.init()}" type="preRenderView"/>
+	</f:metadata>
+		<p:accordionPanel>
+			<p:tab title="Pesquisa">
+				<h:form>
+					<h:panelGrid columns="6" cellpadding="10">
+						<p:outputLabel value="Data do evento: " />
+						<p:calendar value="#{avisoMB.aviso.dataEvento}" id="dataEv"
+							locale="pt_BR" />
+
+
+
+						<p:calendar value="#{avisoMB.aviso.dataRetorno}" id="dataRet" />
+
+
+						<p:commandButton value="Pesquisar" update=":formDt:tbaviso"
+							icon="ui-icon-search" action="#{avisoMB.pesquisarPorData()}" />
+						<p:button type="reset" value="Limpar" icon="ui-icon-trash" />
+						
+						<p:button outcome="cadaviso.xhtml" value="Novo" icon="ui-icon-document-b
+ "/>
+					</h:panelGrid>
+
+				</h:form>
+			</p:tab>
+		</p:accordionPanel>
+
+
+
+		<h:form id="formDt">
+			<p:dataTable value="#{avisoMB.listaDeAvisos}" var="a" id="tbaviso"
+				emptyMessage="Nenhum aviso encontrado" paginator="true" rows="10"
+				paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30">
+
+				<p:column headerText="#" width="3%">
+			#{a.idAviso}	
+			</p:column>
+
+				<p:column headerText="Data Evento" width="13%"
+					sortBy="#{a.dataEvento}">
+			#{a.dataEvento}	
+			</p:column>
+
+				<p:column headerText="Data Retorno" width="13%"
+					sortBy="#{a.dataRetorno}">
+			#{a.dataRetorno}	
+			</p:column>
+
+
+				<p:column headerText="Tipo" width="12%" sortBy="#{a.tipoParada}">
+			#{a.tipoParada.descparada}	
+			</p:column>
+
+				<p:column headerText="Mensagem">
+			#{a.avisoTexto}	
+			</p:column>
+
+
+				<p:column headerText="Editar" width="12%">
+
+					<p:button icon="ui-icon-pencil" outcome="cadaviso.xhtml">
+					<f:param name="aviso" value="#{a.idAviso}"/>
+					</p:button>
+
+					<p:commandButton icon="ui-icon-trash"
+						oncomplete="PF('confirm').show()">
+						<f:setPropertyActionListener value="#{a}"
+							target="#{avisoMB.aviso}" />
+
+
+					</p:commandButton>
+
+
+
+				</p:column>
+
+
+			</p:dataTable>
+
+
+			<p:confirmDialog header="Excluir Aviso"
+				message="Deseja excluir o registro" widgetVar="confirm"
+				showEffect="scale">
+
+				<p:commandButton value="SIM" oncomplete="PF('confirm').hide()"
+					action="#{avisoMB.delete()}" ajax="false" />
+				<p:button value="NÃO" onclick="PF('confirm').hide();return false" />
+			</p:confirmDialog>
+
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
