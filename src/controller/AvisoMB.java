@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -16,8 +15,10 @@ import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
 import DAO.Interface.AvisoDAO;
+import DAO.Interface.SistemaDAO;
 import DAO.Interface.TipoParadaDAO;
 import entity.Aviso;
+import entity.Sistema;
 import entity.TipoParada;
 
 @SessionScoped
@@ -39,6 +40,9 @@ public class AvisoMB implements Serializable {
 
 	@Inject
 	TipoParadaDAO tipoParadaDAO;
+	
+	@Inject
+	SistemaDAO sistemaDAO;
 
 	@Inject
 	Aviso aviso;
@@ -47,11 +51,13 @@ public class AvisoMB implements Serializable {
 	public void init() {
 		findAll();
 		findAllTipoParada();
+		findAllSistema();
 
 	}
 
 	private List<Aviso> listaDeAvisos = new ArrayList<>();
 	private List<TipoParada> listaTipoParada = new ArrayList<>();
+	private List<Sistema> listaTipoSistema = new ArrayList<>();
 
 	public List<Aviso> findAll() {
 		listaDeAvisos = (List<Aviso>) avisoDAO.findAll(Aviso.class.getName());
@@ -59,9 +65,6 @@ public class AvisoMB implements Serializable {
 	}
 
 	public String save() {
-
-		aviso.setDataEvento(new Date());
-		aviso.setDataRetorno(new Date());
 		System.out.println(aviso.getTipoParada().getDescparada());
 		avisoDAO.persist(aviso);
 		aviso = new Aviso();
@@ -84,6 +87,11 @@ public class AvisoMB implements Serializable {
 		listaTipoParada = (List<TipoParada>) tipoParadaDAO
 				.findAll(TipoParada.class.getName());
 		return listaTipoParada;
+	}
+	
+	public List<Sistema>findAllSistema(){
+		listaTipoSistema = (List<Sistema>) sistemaDAO.findAll(Sistema.class.getName());
+		return listaTipoSistema;
 	}
 
 	public List<Aviso> pesquisarPorData() throws ParseException {

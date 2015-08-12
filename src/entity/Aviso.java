@@ -37,8 +37,11 @@ public class Aviso implements Serializable, Comparable<Aviso> {
 	@JoinColumn(name = "idTipoParada")
 	private TipoParada tipoParada;
 
+	@ManyToOne
+	@JoinColumn(name = "idSistema")
+	private Sistema sistema;
+	
 	private Date dataEvento;
-
 	private Date dataRetorno;
 	private String avisoTexto;
 

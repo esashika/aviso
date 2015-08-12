@@ -19,13 +19,26 @@
 			<h:panelGrid columns="2" cellpadding="10">
 				
 				
+				<p:outputLabel value="Data Evento:" for="dataev" />
+				<p:calendar id="dataev" value="#{avisoMB.aviso.dataEvento}" pattern="dd/MM/yyyy HH:mm" effect="drop"/>
+				
+				<p:outputLabel value="Data Retorno" for="dataret" />
+				<p:calendar id="dataret" value="#{avisoMB.aviso.dataRetorno}" pattern="dd/MM/yyyy HH:mm" effect="drop" />
+				
 
 				<p:outputLabel value="Tipo: " for="tipoParada" />
 				<p:selectOneMenu value="#{avisoMB.aviso.tipoParada}" id="tipoParada" converter="generic">   
                         <f:selectItem itemLabel="Selecione" />  
                         <f:selectItems value="#{avisoMB.listaTipoParada}" var="t"  
                             itemValue="#{t}" itemLabel="#{t.descparada}"/>  
-                    </p:selectOneMenu>  
+                    </p:selectOneMenu> 
+                    
+                 <p:outputLabel value="Sistema: " for="sistema" />
+				<p:selectOneMenu value="#{avisoMB.aviso.sistema}" id="sistema" converter="generic">   
+                        <f:selectItem itemLabel="Selecione" />  
+                        <f:selectItems value="#{avisoMB.listaTipoSistema}" var="s"  
+                            itemValue="#{s}" itemLabel="#{s.nomeSistema}"/>  
+                    </p:selectOneMenu>      
 
 				<p:outputLabel value="Texto Aviso:" for="textoAviso"/>
 				<p:inputTextarea value="#{avisoMB.aviso.avisoTexto}" id="textoAviso"/>
