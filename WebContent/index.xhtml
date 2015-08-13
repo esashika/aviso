@@ -1,23 +1,72 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core">
- 
-<h:head>
-    <title>Login - Spring Security</title>
-</h:head>
-<h:body>
-    <h:form>
-        <h:messages />
-        <h:panelGrid columns="2">
-            <h:outputText value="Username: " />
-            <h:inputText value="#{authenticator.username}" />
-            <h:outputText value="Password: " />
-            <h:inputText value="#{authenticator.password}" />
-        </h:panelGrid>
- 
-        <h:commandButton value="Logar!" action="#{authenticator.login}" />
-    </h:form>
-</h:body>
-</html>
+<ui:composition template="/WEB-INF/templates/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Dashboard</ui:define>
+
+	<ui:define name="corpo">
+
+
+		<p:accordionPanel>
+			<p:tab title="Pesquisa">
+				<h:form>
+					<h:panelGrid columns="5" cellpadding="10">
+						<p:outputLabel value="Data do evento: " />
+						<p:calendar value="#{avisoMB.aviso.dataEvento}" id="dataEv" locale="pt_BR"/>
+						
+						
+						
+						<p:calendar value="#{avisoMB.aviso.dataRetorno}" id="dataRet"/>
+						
+						
+						<p:commandButton value="Pesquisar" update=":formDt:tbaviso"
+							icon="ui-icon-search" action="#{avisoMB.pesquisarPorData()}"/>
+						<p:button type="reset" value="Limpar" icon="ui-icon-trash" />
+					</h:panelGrid>
+
+				</h:form>
+			</p:tab>
+		</p:accordionPanel>
+
+
+
+<h:form id="formDt">
+		<p:dataTable value="#{avisoMB.listaDeAvisos}" var="a" id="tbaviso"
+			emptyMessage="Nenhum aviso encontrado" paginator="true" rows="10"
+			paginatorPosition="bottom"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="10,20,30">
+
+			<p:column headerText="#" width="3%">
+			#{a.idAviso}	
+			</p:column>
+
+			<p:column headerText="Data Evento" width="13%"
+				sortBy="#{a.dataEvento}">
+			#{a.dataEvento}	
+			</p:column>
+
+			<p:column headerText="Data Retorno" width="13%"
+				sortBy="#{a.dataRetorno}">
+			#{a.dataRetorno}	
+			</p:column>
+
+
+			<p:column headerText="Tipo" width="12%" sortBy="#{a.tipoParada}">
+			#{a.tipoParada.descparada}	
+			</p:column>
+
+			<p:column headerText="Mensagem">
+			#{a.avisoTexto}	
+			</p:column>
+
+
+		</p:dataTable>
+
+</h:form>
+	</ui:define>
+
+</ui:composition>
