@@ -22,11 +22,30 @@ public class AvisoDAOimp extends GenericDAOImpl<Aviso, Integer> implements
 	@Override
 	public List<Aviso> SearchAvisoByDateEventoAndDateReturn(String dataEventoM,
 			String dataRetornoM) {
-		System.out.println("entrou query");
-
 		listaDeAviso = entityManager.createQuery(
 				"from Aviso a where a.dataEvento>='" + dataEventoM
 						+ "' and a.dataRetorno<='" + dataRetornoM + "'")
+				.getResultList();
+		System.out.println(listaDeAviso.size());
+		return listaDeAviso;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Aviso> findAllByIdSystem(String idSistema) {
+		return entityManager.createQuery(
+				"FROM Aviso a where a.sistema.idSistema =" + idSistema)
+				.getResultList();
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Aviso> SearchAvisoByDateEventoAndDateReturnIdSystem(
+			String dataEventoM, String dataRetornoM, String idSistema) {
+		listaDeAviso = entityManager.createQuery(
+				"from Aviso a where a.dataEvento>='" + dataEventoM
+						+ "' and a.dataRetorno<='" + dataRetornoM + "'" + "and a.sistema.idSistema=" + idSistema)
 				.getResultList();
 		System.out.println(listaDeAviso.size());
 		return listaDeAviso;
